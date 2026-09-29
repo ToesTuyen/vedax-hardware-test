@@ -29,8 +29,10 @@ Mở thư mục này trong Android Studio rồi chạy cấu hình `app`, hoặc
 ```bash
 ./gradlew assembleDebug
 adb devices -l
-adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb install -r app/build/outputs/apk/debug/VedaX-Hardware-Test-v0.3.1-debug.apk
 ```
+
+Gradle đặt tên APK theo mẫu `VedaX-Hardware-Test-v<versionName>-<buildType>.apk` để nhìn rõ ứng dụng, phiên bản và loại bản build. Khi tăng phiên bản, cập nhật tên tệp trong lệnh `adb install` tương ứng.
 
 Nếu máy tính có nhiều thiết bị ADB, dùng `adb -s SERIAL install -r ...` với đúng serial đích. Nếu Samsung chặn cài bằng streaming, thử `adb -s SERIAL install --no-streaming -r ...`.
 
