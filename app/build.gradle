@@ -2,6 +2,12 @@ plugins {
     id 'com.android.application'
 }
 
+def releaseKeystore = System.getenv('VEDAX_RELEASE_KEYSTORE')
+def releaseStorePassword = System.getenv('VEDAX_RELEASE_STORE_PASSWORD')
+def releaseKeyAlias = System.getenv('VEDAX_RELEASE_KEY_ALIAS')
+def releaseKeyPassword = System.getenv('VEDAX_RELEASE_KEY_PASSWORD')
+def releaseSigningReady = releaseKeystore && releaseStorePassword && releaseKeyAlias && releaseKeyPassword
+
 android {
     namespace 'vn.vedax.hardwaretest'
     compileSdk 35
@@ -13,9 +19,26 @@ android {
     defaultConfig {
         applicationId 'vn.vedax.hardwaretest'
         minSdk 26
-        targetSdk 32
-        versionCode 5
-        versionName '0.3.2'
+        targetSdk 33
+        versionCode 6
+        versionName '0.3.3'
+    }
+
+    signingConfigs {
+        if (releaseSigningReady) {
+            create('release') {
+                storeFile file(releaseKeystore)
+                storePassword releaseStorePassword
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPassword
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            if (releaseSigningReady) signingConfig signingConfigs.release
+        }
     }
 
     compileOptions {
