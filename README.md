@@ -2,7 +2,21 @@
 
 App kiểm tra phần cứng cho Android 12 trở lên, cũng có thể chạy trên điện thoại Samsung để thử giao diện. Màn hình chính hiển thị các mục theo lưới 2 cột, mỗi mục có icon và chỉ bắt đầu kiểm tra khi được chạm vào. Mỗi kết quả chỉ xác nhận đường phần cứng/API tương ứng; app không lưu ảnh, UID hoặc thông tin căn cước.
 
-Phiên bản hiện tại: **0.3.3** (`versionCode` 6). Khi phát hành bản mới, tăng cả `versionCode` và `versionName` trong `app/build.gradle`; Android chỉ chấp nhận cài đè nếu APK mới có `versionCode` cao hơn và cùng chữ ký. Launcher icon VedaX dạng adaptive vector được đặt trong `src/main`, nên cả debug và release dùng cùng logo; Android 13 trở lên có thêm phiên bản monochrome cho themed icons.
+Phiên bản nguồn mã hiện tại: **0.4.0** (`versionCode` 7). Mã ứng dụng đã chuyển hoàn toàn sang Kotlin. Chưa phát hành GitHub Release v0.4.0 để tránh tự đẩy bản refactor tới robot trước khi kiểm tra trên phần cứng. Khi phát hành bản mới, tăng cả `versionCode` và `versionName` trong `app/build.gradle`; Android chỉ chấp nhận cài đè nếu APK mới có `versionCode` cao hơn và cùng chữ ký. Launcher icon VedaX dạng adaptive vector được đặt trong `src/main`, nên cả debug và release dùng cùng logo; Android 13 trở lên có thêm phiên bản monochrome cho themed icons.
+
+## Cấu trúc mã
+
+`app/src/main/kotlin/vn/vedax/hardwaretest/` chia theo trách nhiệm:
+
+| Gói | Trách nhiệm |
+| --- | --- |
+| `core` | Danh mục tính năng, tag log và so sánh phiên bản |
+| `ui` | Trang chủ, trang chức năng và thành phần giao diện dùng chung |
+| `ui/features` | Mỗi màn hình tính năng; quản lý trạng thái và vòng đời giao diện |
+| `device` | Camera2, nhận diện khuôn mặt, NFC, USB và Android PrintManager |
+| `update` | Đọc GitHub Releases, xác minh APK/chữ ký và mở trình cài Android |
+
+Activity không tự đọc thiết bị hay gọi mạng. `PrintTest` giữ đường in `PrintManager` và nội dung trang thử của v0.3.3. `NfcReader` chỉ dùng Android NFC API; nếu firmware không cung cấp `NfcAdapter`, cần SDK/driver của đầu đọc riêng, không thể khắc phục bằng xin quyền NFC lần nữa.
 
 ## Cập nhật từ GitHub Releases
 
@@ -10,7 +24,7 @@ App kiểm tra [Release mới nhất](https://github.com/ToesTuyen/vedax-hardwar
 
 Nếu đã chạy bản thử nghiệm yêu cầu token cho repo Private, bản Public mới sẽ xóa token cũ đã lưu trên thiết bị; không còn dùng xác thực GitHub.
 
-Release cần có tag dạng `v0.3.3`, đúng một tệp `.apk`, và SHA-256 do GitHub công bố. App xác minh hash, package name, versionCode, versionName và chữ ký trước khi chuyển APK cho trình cài đặt Android. Android có thể yêu cầu cho phép **Cài ứng dụng không rõ nguồn gốc** cho app này. Sau khi tải, việc xác nhận cài vẫn do người dùng thực hiện.
+Release cần có tag dạng `v0.4.0`, đúng một tệp `.apk`, và SHA-256 do GitHub công bố. App xác minh hash, package name, versionCode, versionName và chữ ký trước khi chuyển APK cho trình cài đặt Android. Android có thể yêu cầu cho phép **Cài ứng dụng không rõ nguồn gốc** cho app này. Sau khi tải, việc xác nhận cài vẫn do người dùng thực hiện.
 
 Từ **v0.3.3**, GitHub Release chứa APK release ký bằng khóa riêng, không phải khóa debug. **Không thể cài đè bản debug cũ:** gỡ bản debug trước khi cài v0.3.3 (sao lưu dữ liệu nếu cần). Các bản release tiếp theo phải dùng lại đúng keystore này để cập nhật trong app; hãy sao lưu keystore và mật khẩu ở nơi an toàn. Khóa ký không nằm trong GitHub repo.
 
@@ -42,8 +56,10 @@ Mở thư mục này trong Android Studio rồi chạy cấu hình `app`, hoặc
 ```bash
 ./gradlew assembleDebug
 adb devices -l
-adb install -r app/build/outputs/apk/debug/VedaX-Hardware-Test-v0.3.3-debug.apk
+adb install -r app/build/outputs/apk/debug/VedaX-Hardware-Test-v0.4.0-debug.apk
 ```
+
+Chạy unit test phần so sánh phiên bản: `./gradlew testDebugUnitTest`.
 
 Gradle đặt tên APK theo mẫu `VedaX-Hardware-Test-v<versionName>-<buildType>.apk` để nhìn rõ ứng dụng, phiên bản và loại bản build. Khi tăng phiên bản, cập nhật tên tệp trong lệnh `adb install` tương ứng.
 

@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
 def releaseKeystore = System.getenv('VEDAX_RELEASE_KEYSTORE')
@@ -20,8 +21,8 @@ android {
         applicationId 'vn.vedax.hardwaretest'
         minSdk 26
         targetSdk 33
-        versionCode 6
-        versionName '0.3.3'
+        versionCode 7
+        versionName '0.4.0'
     }
 
     signingConfigs {
@@ -46,9 +47,17 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             output.outputFileName = "VedaX-Hardware-Test-v${variant.versionName}-${variant.buildType.name}.apk"
         }
     }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
 }

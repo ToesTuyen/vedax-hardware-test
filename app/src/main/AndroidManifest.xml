@@ -9,16 +9,16 @@
     <uses-feature android:name="android.hardware.usb.host" android:required="false" />
 
     <application android:label="VedaX Hardware Test" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:usesCleartextTraffic="false" android:allowBackup="false">
-        <provider android:name=".UpdateApkProvider"
+        <provider android:name=".update.UpdateApkProvider"
             android:authorities="vn.vedax.hardwaretest.updates"
             android:exported="false"
             android:grantUriPermissions="true" />
-        <activity android:name=".CategoryActivity" android:exported="true" android:screenOrientation="unspecified">
+        <activity android:name=".ui.HomeActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:exported="false" android:screenOrientation="unspecified" android:launchMode="singleTop" />
+        <activity android:name=".ui.FeatureActivity" android:exported="false" android:launchMode="singleTop" />
     </application>
 </manifest>
