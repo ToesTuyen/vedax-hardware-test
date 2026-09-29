@@ -2,7 +2,7 @@
 
 App kiểm tra phần cứng cho Android 12 trở lên, cũng có thể chạy trên điện thoại Samsung để thử giao diện. Màn hình chính hiển thị các mục theo lưới 2 cột, mỗi mục có icon và chỉ bắt đầu kiểm tra khi được chạm vào. Mỗi kết quả chỉ xác nhận đường phần cứng/API tương ứng; app không lưu ảnh, UID hoặc thông tin căn cước.
 
-Phiên bản hiện tại: **0.3.1** (`versionCode` 4). Khi phát hành bản mới, tăng cả `versionCode` và `versionName` trong `app/build.gradle`; Android chỉ chấp nhận cài đè nếu APK mới có `versionCode` cao hơn và cùng chữ ký.
+Phiên bản hiện tại: **0.3.2** (`versionCode` 5). Khi phát hành bản mới, tăng cả `versionCode` và `versionName` trong `app/build.gradle`; Android chỉ chấp nhận cài đè nếu APK mới có `versionCode` cao hơn và cùng chữ ký. Launcher icon VedaX dạng adaptive vector được đặt trong `src/main`, nên cả debug và release dùng cùng logo; Android 13 trở lên có thêm phiên bản monochrome cho themed icons.
 
 ## Cập nhật từ GitHub Releases
 
@@ -10,7 +10,7 @@ App kiểm tra [Release mới nhất](https://github.com/ToesTuyen/vedax-hardwar
 
 Nếu đã chạy bản thử nghiệm yêu cầu token cho repo Private, bản Public mới sẽ xóa token cũ đã lưu trên thiết bị; không còn dùng xác thực GitHub.
 
-Release cần có tag dạng `v0.3.1`, đúng một tệp `.apk`, và SHA-256 do GitHub công bố. App xác minh hash, package name, versionCode, versionName và chữ ký trước khi chuyển APK cho trình cài đặt Android. Android có thể yêu cầu cho phép **Cài ứng dụng không rõ nguồn gốc** cho app này. Sau khi tải, việc xác nhận cài vẫn do người dùng thực hiện.
+Release cần có tag dạng `v0.3.2`, đúng một tệp `.apk`, và SHA-256 do GitHub công bố. App xác minh hash, package name, versionCode, versionName và chữ ký trước khi chuyển APK cho trình cài đặt Android. Android có thể yêu cầu cho phép **Cài ứng dụng không rõ nguồn gốc** cho app này. Sau khi tải, việc xác nhận cài vẫn do người dùng thực hiện.
 
 Quy trình tạo bản tiếp theo: tăng phiên bản trong `app/build.gradle`, build APK bằng cùng khóa ký với bản đã cài, push code, rồi tạo GitHub Release tương ứng và đính kèm APK. APK debug hiện tại chỉ dùng để thử nghiệm; không sử dụng khóa debug cho triển khai sản xuất. Nếu chuyển sang khóa ký release mới, bản debug cũ sẽ không cài đè được và phải gỡ trước.
 
@@ -29,7 +29,7 @@ Mở thư mục này trong Android Studio rồi chạy cấu hình `app`, hoặc
 ```bash
 ./gradlew assembleDebug
 adb devices -l
-adb install -r app/build/outputs/apk/debug/VedaX-Hardware-Test-v0.3.1-debug.apk
+adb install -r app/build/outputs/apk/debug/VedaX-Hardware-Test-v0.3.2-debug.apk
 ```
 
 Gradle đặt tên APK theo mẫu `VedaX-Hardware-Test-v<versionName>-<buildType>.apk` để nhìn rõ ứng dụng, phiên bản và loại bản build. Khi tăng phiên bản, cập nhật tên tệp trong lệnh `adb install` tương ứng.
