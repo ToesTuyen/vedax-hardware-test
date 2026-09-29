@@ -12,6 +12,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class CategoryActivity extends Activity {
+    private UpdateManager updateManager;
+
+    @Override protected void onResume() {
+        super.onResume();
+        if (updateManager != null) updateManager.onHostResume();
+    }
+
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         ScrollView scroll = new ScrollView(this);
@@ -50,7 +57,14 @@ public class CategoryActivity extends Activity {
         category(second, "Camera", "Xem hình trực tiếp", MainActivity.CATEGORY_CAMERA, R.drawable.ic_camera, true);
         category(second, "In phiếu", "Gửi trang in thử", MainActivity.CATEGORY_PRINT, R.drawable.ic_print, true);
         category(root, "Thiết bị kết nối", "Xem USB và mã thiết bị", MainActivity.CATEGORY_USB, R.drawable.ic_usb, false);
+        TextView updates = label("Kiểm tra cập nhật ứng dụng  ↗", 13, true, 0xff305b99);
+        LinearLayout.LayoutParams updatesParams = new LinearLayout.LayoutParams(-1, -2);
+        updatesParams.topMargin = dp(18);
+        root.addView(updates, updatesParams);
+        updates.setOnClickListener(v -> updateManager.checkManually());
         setContentView(scroll);
+        updateManager = new UpdateManager(this);
+        scroll.post(() -> updateManager.checkOnLaunch());
     }
 
     private LinearLayout row(LinearLayout parent) {

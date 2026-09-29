@@ -2,7 +2,17 @@
 
 App kiểm tra phần cứng cho Android 12 trở lên, cũng có thể chạy trên điện thoại Samsung để thử giao diện. Màn hình chính hiển thị các mục theo lưới 2 cột, mỗi mục có icon và chỉ bắt đầu kiểm tra khi được chạm vào. Mỗi kết quả chỉ xác nhận đường phần cứng/API tương ứng; app không lưu ảnh, UID hoặc thông tin căn cước.
 
-Phiên bản hiện tại: **0.2.0** (`versionCode` 2). Khi phát hành bản mới, tăng cả `versionCode` và `versionName` trong `app/build.gradle`; Android chỉ chấp nhận cài đè nếu APK mới có `versionCode` cao hơn và cùng chữ ký.
+Phiên bản hiện tại: **0.3.0** (`versionCode` 3). Khi phát hành bản mới, tăng cả `versionCode` và `versionName` trong `app/build.gradle`; Android chỉ chấp nhận cài đè nếu APK mới có `versionCode` cao hơn và cùng chữ ký.
+
+## Cập nhật từ GitHub Releases
+
+App kiểm tra [Release mới nhất](https://github.com/ToesTuyen/vedax-hardware-test/releases) của repo Public khi mở màn hình chính, không cần token. Nếu phiên bản mới hơn, app hiện popup để người dùng quyết định tải và cài APK; không tự cài âm thầm. Có thể kiểm tra lại bằng liên kết **Kiểm tra cập nhật ứng dụng** cuối màn hình.
+
+Nếu đã chạy bản thử nghiệm yêu cầu token cho repo Private, bản Public mới sẽ xóa token cũ đã lưu trên thiết bị; không còn dùng xác thực GitHub.
+
+Release cần có tag dạng `v0.3.0`, đúng một tệp `.apk`, và SHA-256 do GitHub công bố. App xác minh hash, package name, versionCode, versionName và chữ ký trước khi chuyển APK cho trình cài đặt Android. Android có thể yêu cầu cho phép **Cài ứng dụng không rõ nguồn gốc** cho app này. Sau khi tải, việc xác nhận cài vẫn do người dùng thực hiện.
+
+Quy trình tạo bản tiếp theo: tăng phiên bản trong `app/build.gradle`, build APK bằng cùng khóa ký với bản đã cài, push code, rồi tạo GitHub Release tương ứng và đính kèm APK. APK debug hiện tại chỉ dùng để thử nghiệm; không sử dụng khóa debug cho triển khai sản xuất. Nếu chuyển sang khóa ký release mới, bản debug cũ sẽ không cài đè được và phải gỡ trước.
 
 | Mục | Bản test này kiểm tra | Muốn tích hợp đầy đủ |
 | --- | --- | --- |
